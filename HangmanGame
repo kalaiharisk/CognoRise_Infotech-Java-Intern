@@ -1,0 +1,41 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class HangmanGame {
+    public static void main(String[] args) {
+        String[] words = {"apple", "banana", "cherry", "grape", "orange"};
+        Random random = new Random();
+        String word = words[random.nextInt(words.length)];
+        char[] display = new char[word.length()];
+        for (int i = 0; i < display.length; i++) {
+            display[i] = '_';
+        }
+        int incorrectGuesses = 0;
+        int maxIncorrectGuesses = 6;
+        Scanner scanner = new Scanner(System.in);
+        while (incorrectGuesses < maxIncorrectGuesses) {
+            System.out.println("Guess a letter: ");
+            char letter = scanner.next().charAt(0);
+            boolean found = false;
+            for (int i = 0; i < word.length(); i++) {
+                if (word.charAt(i) == letter) {
+                    display[i] = letter;
+                    found = true;
+                }
+            }
+            if (!found) {
+                incorrectGuesses++;
+                System.out.println("Incorrect guess! You have " + (maxIncorrectGuesses - incorrectGuesses) + " guesses left.");
+            }
+            System.out.println(display);
+            if (String.valueOf(display).equals(word)) {
+                System.out.println("Congratulations! You guessed the word correctly.");
+                break;
+            }
+        }
+        if (incorrectGuesses == maxIncorrectGuesses) {
+            System.out.println("Game over! You ran out of guesses. The word was: " + word);
+        }
+        scanner.close();
+    }
+}
